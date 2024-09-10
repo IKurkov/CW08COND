@@ -16,9 +16,9 @@ private:
   class Row
   {
   public:
-    Row(T *b) : begin_(b) {}
-    T &operator[](size_t j) { return begin_[j]; }
-    T const &operator[](size_t j) const { return begin_[j]; }
+    Row( T *b ) : begin_(b) {}
+    T & operator[](size_t j) { return begin_[j]; }
+    T const & operator[](size_t j) const { return begin_[j]; }
   private:
     T *begin_ = nullptr;
   };
@@ -104,4 +104,40 @@ Matrix<T> operator+( const Matrix<T> &lhs, const Matrix<T> &rhs )
   return sum += rhs;
 }
 
+template <typename T>
+Matrix<T> & operator-=( Matrix<T> &lhs, const Matrix<T> &rhs )
+{
+  if (lhs.rows() != rhs.rows() || lhs.cols() != rhs.cols())
+    throw std::invalid_argument("Can't substract matrices with different dimensions");
+
+  for (size_t i = 0; i < lhs.rows(); i++)
+    for (size_t j = 0; j < lhs.cols(); j++)
+      lhs[i][j] -= rhs[i][j];
+  return lhs;
+}
+
+template <typename T>
+Matrix<T> operator-( const Matrix<T> &lhs, const Matrix<T> &rhs )
+{
+  Matrix<T> diff = lhs;
+
+  return diff -= rhs;
+}
+
+template <typename T>
+Matrix<T> & operator*=( Matrix<T> &lhs, T rhs )
+{
+  for (size_t i = 0; i < lhs.rows(); i++)
+    for (size_t j = 0; j < lhs.cols(); j++)
+      lhs[i][j] *= rhs;
+  return lhs;
+}
+
+template <typename T>
+Matrix<T> operator*( T lhs, const Matrix<T> &rhs )
+{
+  Matrix<T> prod = rhs;
+
+  return prod *= lhs;
+}
 #endif // !MATRIX_H

@@ -12,6 +12,6 @@ int main( void )
   m[2][3] = 1;
   b[0][1] = 10;
   b[2][3] = -1;
-  std::cout << a << '\n' << m << m + b;
+  std::cout << 5.0 * m + 3.14 * b;
   return 0;
 }

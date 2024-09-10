@@ -12,8 +12,11 @@ class Vector
 {
 public:
   Vector( void ) : dim_(0), data_(nullptr) {}
-  /* Construct empty vector of size n */
-  explicit Vector( size_t n ) : dim_(n), data_(new T[n]) {}
+  /* Construct zero vector of size n */
+  explicit Vector( size_t n ) : dim_(n), data_(new T[n])
+  {
+    memset(data_, 0, sizeof(T) * dim_);
+  }
   Vector( size_t n, T* data) : dim_(n), data_(data) {}
 
   void swap( Vector &other )
@@ -51,11 +54,10 @@ public:
   T const operator[]( size_t i ) const { return data_[i]; }
   T & operator[]( size_t i ) { return data_[i]; }
 
-  /* Calc Godels norm with p -> +inf of given vector */
-  friend T NormInf( const Vector<T> &v )
-  {
-    return *std::max_element(v.data_, v.data_ + v.dim_);
-  }
+  /* Get constant pointer to the begin of vector */
+  const T * cbegin( void ) const { return data_; }
+  /* Get constant pointer to the end of vector */
+  const T * cend( void ) const { return data_ + dim_; }
 
 private:
   size_t dim_;
@@ -164,6 +166,13 @@ T Norm2( const Vector<T> &v )
   for (size_t i = 0; i < v.dim(); i++)
     norm += v[i] * v[i];
   return sqrt(norm);
+}
+
+/* Calc Godels norm with p -> +inf of given vector */
+template <typename T>
+T NormInf( const Vector<T> &v )
+{
+  return *std::max_element(v.cbegin(), v.cend());
 }
 
 #endif // !VECTOR_HPP
