@@ -9,21 +9,21 @@ template <typename T>
 class Vector
 {
 public:
-  Vector( void ) : vdim(0), vdata(nullptr) {}
+  Vector( void ) : dim_(0), data_(nullptr) {}
   /* Construct empty vector of size n */
-  explicit Vector( size_t n ) : vdim(n), vdata(new T[n]) {}
-  Vector( size_t n, T* data) : vdim(n), vdata(data) {}
+  explicit Vector( size_t n ) : dim_(n), data_(new T[n]) {}
+  Vector( size_t n, T* data) : dim_(n), data_(data) {}
 
   void swap( Vector &other )
   {
-    std::swap(vdata, other.vdata);
-    std::swap(vdim, other.vdim);
+    std::swap(data_, other.data_);
+    std::swap(dim_, other.dim_);
   }
 
   /* Copy constructor for vector */
-  Vector( const Vector &other ) : vdim(other.vdim), vdata(new T[vdim])
+  Vector( const Vector &other ) : dim_(other.dim_), data_(new T[dim_])
   {
-    memcpy(vdata, other.vdata, sizeof(T) * other.vdim);
+    memcpy(data_, other.data_, sizeof(T) * other.dim_);
   }
   /* Copy assignment constructor for vector */
   Vector & operator=( const Vector &rhs )
@@ -42,21 +42,21 @@ public:
     return *this;
   }
   /* Destructor for vector */
-  ~Vector( void ) { delete[] vdata; }
+  ~Vector( void ) { delete[] data_; }
 
-  size_t dim( void ) const { return vdim; }
-  T const & operator[]( size_t i ) const { return vdata[i]; }
-  T & operator[]( size_t i ) { return vdata[i]; }
+  size_t dim( void ) const { return dim_; }
+  T const & operator[]( size_t i ) const { return data_[i]; }
+  T & operator[]( size_t i ) { return data_[i]; }
 
   /* Calc Godels norm with p -> +inf of given vector */
   friend T NormInf( const Vector<T> &v )
   {
-    return *std::max_element(v.vdata, v.vdata + v.vdim);
+    return *std::max_element(v.data_, v.data_ + v.dim_);
   }
 
 private:
-  size_t vdim;
-  T *vdata;
+  size_t dim_;
+  T *data_;
 };
 
 template <typename T>
@@ -114,7 +114,7 @@ Vector<T> operator*( T lhs, const Vector<T> &rhs )
 }
 
 template <typename T>
-std::ostream & operator<<( std::ostream &out, const Vector<T> v )
+std::ostream & operator<<( std::ostream &out, const Vector<T> &v )
 {
   out << "{";
   if (v.dim() > 0)
