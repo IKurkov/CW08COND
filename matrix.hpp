@@ -2,6 +2,8 @@
 #define MATRIX_H
 
 #include <cstring>
+#include <iostream>
+#include <stdexcept>
 #include <utility>
 
 template <typename T>
@@ -68,5 +70,38 @@ public:
   Row operator[]( size_t i ) { return Row(data_ + i * col_); }
   Row const operator[]( size_t i ) const { return Row(data_ + i * col_); }
 };
+
+template <typename T>
+std::ostream & operator<<( std::ostream &out, const Matrix<T> &m )
+{
+  for (size_t i = 0; i < m.rows(); i++)
+  {
+    out << "{" << m[i][0];
+    for (size_t j = 1; j < m.cols(); j++)
+      out << " " << m[i][j];
+    out << "}\n";
+  }
+  return out;
+}
+
+template <typename T>
+Matrix<T> & operator+=( Matrix<T> &lhs, const Matrix<T> &rhs )
+{
+  if (lhs.rows() != rhs.rows() || lhs.cols() != rhs.cols())
+    throw std::invalid_argument("Can't add matrices with different dimensions");
+  
+  for (size_t i = 0; i < lhs.rows(); i++)
+    for (size_t j = 0; j < lhs.cols(); j++)
+      lhs[i][j] += rhs[i][j];
+  return lhs;
+}
+
+template <typename T>
+Matrix<T> operator+( const Matrix<T> &lhs, const Matrix<T> &rhs )
+{
+  Matrix<T> sum = lhs;
+
+  return sum += rhs;
+}
 
 #endif // !MATRIX_H
