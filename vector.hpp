@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cstring>
+#include <utility>
 
 template <typename T>
 class Vector
@@ -44,8 +46,9 @@ public:
   /* Destructor for vector */
   ~Vector( void ) { delete[] data_; }
 
+  /* Get dimension of vector */
   size_t dim( void ) const { return dim_; }
-  T const & operator[]( size_t i ) const { return data_[i]; }
+  T const operator[]( size_t i ) const { return data_[i]; }
   T & operator[]( size_t i ) { return data_[i]; }
 
   /* Calc Godels norm with p -> +inf of given vector */

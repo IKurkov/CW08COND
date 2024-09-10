@@ -3,17 +3,13 @@
 #include <iomanip>
 
 #include "vector.hpp"
+#include "matrix.hpp"
 
 int main( void )
 {
-  Vector<double> a(3), b(3), c;
-  
-  a[0] = 1.0;
-  a[1] = a[2] = 0;
-  b[1] = 1;
-  b[0] = b[2] = 0;
-  c = a + b;
-  c[2] = 2024;
-  std::cout << std::setprecision(15) << Norm1(c) << ' ' << Norm2(c) << ' ' << NormInf(c);
+  Matrix<double> m(3, 4);
+
+  m[2][3] = 1;
+  std::cout << m[2][3];
   return 0;
 }
