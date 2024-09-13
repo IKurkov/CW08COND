@@ -3,7 +3,7 @@
 #define VECTOR_HPP
 
 #include <iostream>
-#include <stdexcept>
+#include <cassert>
 #include <cstring>
 #include <utility>
 
@@ -67,8 +67,7 @@ private:
 template <typename T>
 Vector<T> & operator+=( Vector<T> &lhs, const Vector<T> &rhs )
 {
-  if (lhs.dim() != rhs.dim())
-    throw std::invalid_argument("Can't add vectors with different dimensities!");
+  assert(lhs.dim() == rhs.dim());
 
   for (size_t i = 0; i < lhs.dim(); i++)
     lhs[i] += rhs[i];
@@ -86,8 +85,7 @@ Vector<T> operator+( const Vector<T> &lhs, const Vector<T> &rhs)
 template <typename T>
 Vector<T> & operator-=( Vector<T> &lhs, const Vector<T> &rhs )
 {
-  if (lhs.dim() != rhs.dim())
-    throw std::invalid_argument("Can't substract vectors with different dimensities!");
+  assert(lhs.dim() == rhs.dim());
 
   for (size_t i = 0; i < lhs.dim(); i++)
     lhs[i] -= rhs[i];
@@ -128,7 +126,7 @@ std::ostream & operator<<( std::ostream &out, const Vector<T> &v )
     for (size_t i = 1; i < v.dim(); i++)
       out << ", " << v[i];
   }
-  out << "}^T\n";
+  out << "}^T";
   return out;
 }
 
@@ -138,8 +136,7 @@ T DotProd( const Vector<T> &lhs, const Vector<T> &rhs )
 {
   T prod = 0;
 
-  if (lhs.dim() != rhs.dim())
-    throw std::invalid_argument("Can't evaluate dot product for vectors with different dimensities!");
+  assert(lhs.dim() == rhs.dim());
 
   for (size_t i = 0; i < lhs.dim(); i++)
     prod += lhs[i] * rhs[i];
