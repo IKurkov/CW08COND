@@ -135,7 +135,7 @@ T Cond( const Matrix<T> &A )
 {
   Matrix<T> AInv = Inverse(A);
 
-  return Norm1(A) * Norm1(A_inv);
+  return Norm1(A) * Norm1(AInv);
 }
 
 #endif // !COND_H
