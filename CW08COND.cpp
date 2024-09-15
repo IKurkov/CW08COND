@@ -5,6 +5,7 @@
 
 #include "vector.hpp"
 #include "matrix.hpp"
+#include "COND.hpp"
 
 template <typename T>
 void RandomFill( Matrix<T> &dest )
@@ -16,11 +17,18 @@ void RandomFill( Matrix<T> &dest )
 
 int main( void )
 {
-  Matrix<int> a(3, 5), b = AlmUnitMatrix<int>(5, 2);
-  Vector<int> v(5);
+  Matrix<double> a(2, 2);
+  Vector<double> b(2), x(2);
+  double det;
 
-  v[3] = 1;
-  RandomFill(a);
-  std::cout << a << '\n' << a * v << '\n' << b << '\n' << a * b;
+  a[0][0] = 2;
+  a[1][0] = 1;
+  a[0][1] = 3;
+  a[1][1] = -1;
+  b[0] = 10;
+  b[1] = 2;
+  std::cout << a << '\n';
+  det = GaussElimination(a, b, x);
+  std::cout << x << '\n' << det;
   return 0;
 }

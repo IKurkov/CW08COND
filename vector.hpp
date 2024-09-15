@@ -119,12 +119,12 @@ Vector<T> operator*( T lhs, const Vector<T> &rhs )
 template <typename T>
 std::ostream & operator<<( std::ostream &out, const Vector<T> &v )
 {
-  out << "{";
+  out << '{';
   if (v.dim() > 0)
   {
     out << v[0];
     for (size_t i = 1; i < v.dim(); i++)
-      out << ", " << v[i];
+      out << ' ' << v[i];
   }
   out << "}^T";
   return out;

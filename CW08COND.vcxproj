@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="COND.hpp" />
     <ClCompile Include="CW08COND.cpp" />
   </ItemGroup>
   <ItemGroup>

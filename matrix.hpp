@@ -11,20 +11,6 @@
 template <typename T>
 class Matrix
 {
-private:
-  size_t row_, col_;
-  T *data_;
-
-  class Row
-  {
-  public:
-    Row( T *b ) : begin_(b) {}
-    T & operator[](size_t j) { return begin_[j]; }
-    T const & operator[](size_t j) const { return begin_[j]; }
-  private:
-    T *begin_ = nullptr;
-  };
-
 public:
   Matrix( void ) : row_(0), col_(0), data_(nullptr) {}
   /* Construct zero matrix with n rows and m columns */
@@ -69,9 +55,58 @@ public:
   /* Get number of cols in matrix */
   size_t cols( void ) const { return col_; }
   
+  class Row
+  {
+  public:
+    Row( void ) {}
+    Row( T *b ) : begin_(b) {}
+    /* Copy constructor for matrix's row */
+    Row( const Row &other ) : begin_(other.begin_) {}
+
+    /* Swap rows r and q of the matrix */
+    void swap( Row &other )
+    {
+      std::swap(begin_, other.begin_);
+    }
+
+    /* Copy assign constructor for matrix rows */
+    Row & operator=( const Row &rhs )
+    {
+      Row temp(rhs);
+
+      swap(rhs);
+      return *this;
+    }
+
+    /* Move constructor */
+    Row( Row &&other ) { swap(other); }
+    /* Move assignment constructor */
+    Row & operator=( Row &&rhs )
+    {
+      swap(rhs);
+      return *this;
+    }
+
+    T & operator[]( size_t j ) { return begin_[j]; }
+    T const & operator[]( size_t j ) const { return begin_[j]; }
+  private:
+    T *begin_ = nullptr;
+  };
+
   Row operator[]( size_t i ) { return Row(data_ + i * col_); }
   Row const operator[]( size_t i ) const { return Row(data_ + i * col_); }
+private:
+  size_t row_, col_;
+  T *data_;
 };
+
+/* Swap rows r and q of the matrix */
+template <typename T>
+void swap( typename Matrix<T>::Row &r, typename Matrix<T>::Row &q)
+{
+  r.swap(q);
+}
+
 
 template <typename T>
 std::ostream & operator<<( std::ostream &out, const Matrix<T> &m )
