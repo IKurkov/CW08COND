@@ -130,4 +130,12 @@ Matrix<T> Inverse( const Matrix<T> &A )
   return inverse;
 }
 
+template <typename T>
+T Cond( const Matrix<T> &A )
+{
+  Matrix<T> AInv = Inverse(A);
+
+  return Norm1(A) * Norm1(A_inv);
+}
+
 #endif // !COND_H

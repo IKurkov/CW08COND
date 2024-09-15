@@ -214,4 +214,36 @@ Matrix<T> AlmUnitMatrix( size_t r, size_t c )
   return E;
 }
 
+template <typename T>
+T Norm1( const Matrix<T> &A )
+{
+  T max = 0, sum;
+
+  for (size_t j = 0; j < A.cols(); j++)
+  {
+    sum = 0;
+    for (size_t i = 0; i < A.rows(); i++)
+      sum += abs(A[i][j]);
+    if (sum > max)
+      max = sum;
+  }
+  return max;
+}
+
+template <typename T>
+T NormInf( const Matrix<T> &A )
+{
+  T max = 0, sum;
+
+  for (size_t i = 0; i < A.rows(); i++)
+  {
+    sum = 0;
+    for (size_t j = 0; j < A.cols(); j++)
+      sum += abs(A[i][j]);
+    if (sum > max)
+      max = sum;
+  }
+  return max;
+}
+
 #endif // !MATRIX_H

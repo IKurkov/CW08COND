@@ -17,15 +17,13 @@ void RandomFill( Matrix<T> &dest )
 
 int main( void )
 {
-  Matrix<double> a(2, 2), x(2, 2), b = AlmUnitMatrix<double>(2, 2);
-  double det;
+  Matrix<double> a(3, 3), a_inv;
 
-  a[0][0] = 2;
-  a[1][0] = 5;
-  a[0][1] = 3;
-  a[1][1] = -1;
-  std::cout << a << '\n';
-  det = GaussElimination(a, b, x);
-  std::cout << a * x << '\n' << det;
+  RandomFill(a);
+  std::cout << "A = " << a << '\n';
+  a_inv = Inverse(a);
+  std::cout << "A^{-1} = " << a_inv << '\n'
+    << "A * A^{-1} = " << a * a_inv << '\n'
+    << "cond(A) = " << Norm1(a) * Norm1(a_inv);
   return 0;
 }
